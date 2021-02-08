@@ -28,7 +28,7 @@ CREATE TABLE `Pedido` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `precio` int(11) DEFAULT NULL,
   `lugar` int(11) NOT NULL,
-  `dni_persona` varchar(9) DEFAULT NULL,
+  `dni_persona` varchar(9) NOT NULL,
   `cafeteria` int(11) DEFAULT NULL,
   `cine_lugar` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
@@ -38,6 +38,16 @@ CREATE TABLE `Pedido` (
   CONSTRAINT `fk_pedido_persona` FOREIGN KEY (`dni_persona`) REFERENCES `persona` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Pedido`
+--
+
+LOCK TABLES `Pedido` WRITE;
+/*!40000 ALTER TABLE `Pedido` DISABLE KEYS */;
+INSERT INTO `Pedido` VALUES (1,8,2,'11111111A',2,'Cine2'),(2,2,2,'11111111A',2,'Cine2');
+/*!40000 ALTER TABLE `Pedido` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `butaca`
@@ -51,10 +61,20 @@ CREATE TABLE `butaca` (
   `numero_sala` int(11) NOT NULL,
   `nombre_cine_sala` varchar(45) NOT NULL,
   PRIMARY KEY (`numero`,`numero_sala`,`nombre_cine_sala`),
-  KEY `fk_butaca_sala_idx` (`numero_sala`),
-  CONSTRAINT `fk_butaca_sala` FOREIGN KEY (`numero_sala`) REFERENCES `sala` (`numero`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_butaca_sala_idx` (`numero_sala`,`nombre_cine_sala`),
+  CONSTRAINT `fk_butaca_sala` FOREIGN KEY (`numero_sala`, `nombre_cine_sala`) REFERENCES `sala` (`numero`, `nombre_cine`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `butaca`
+--
+
+LOCK TABLES `butaca` WRITE;
+/*!40000 ALTER TABLE `butaca` DISABLE KEYS */;
+INSERT INTO `butaca` VALUES (1,1,'Cine1'),(2,1,'Cine1'),(3,1,'Cine1'),(4,1,'Cine1'),(5,1,'Cine1'),(6,1,'Cine1'),(7,1,'Cine1'),(8,1,'Cine1'),(9,1,'Cine1'),(10,1,'Cine1'),(1,4,'Yelmo'),(2,4,'Yelmo'),(3,4,'Yelmo'),(4,4,'Yelmo'),(5,4,'Yelmo'),(6,4,'Yelmo'),(7,4,'Yelmo'),(8,4,'Yelmo'),(9,4,'Yelmo'),(10,4,'Yelmo'),(11,4,'Yelmo'),(12,4,'Yelmo'),(13,4,'Yelmo'),(14,4,'Yelmo'),(15,4,'Yelmo'),(16,4,'Yelmo'),(17,4,'Yelmo'),(18,4,'Yelmo'),(19,4,'Yelmo'),(20,4,'Yelmo'),(21,4,'Yelmo'),(22,4,'Yelmo'),(23,4,'Yelmo'),(24,4,'Yelmo'),(25,4,'Yelmo'),(26,4,'Yelmo'),(27,4,'Yelmo'),(28,4,'Yelmo'),(29,4,'Yelmo'),(30,4,'Yelmo');
+/*!40000 ALTER TABLE `butaca` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `cafeteria`
@@ -67,15 +87,25 @@ CREATE TABLE `cafeteria` (
   `id_lugar` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `aforo` int(11) NOT NULL,
-  `apertura` varchar(45) DEFAULT NULL,
-  `cierre` varchar(45) DEFAULT NULL,
+  `apertura` time DEFAULT NULL,
+  `cierre` time DEFAULT NULL,
   `nombre_cine` varchar(45) NOT NULL,
-  PRIMARY KEY (`id_lugar`),
+  PRIMARY KEY (`id_lugar`,`nombre_cine`),
   KEY `fk_cafeteria_cine_idx` (`nombre_cine`),
-  CONSTRAINT `fk_cafeteria_cine` FOREIGN KEY (`nombre_cine`) REFERENCES `cine` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_cafeteria_lugar` FOREIGN KEY (`id_lugar`) REFERENCES `lugar` (`id_lugar`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_cafeteria_1` FOREIGN KEY (`nombre_cine`) REFERENCES `lugar` (`cine_lugar`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_cafeteria_cine` FOREIGN KEY (`nombre_cine`) REFERENCES `cine` (`nombre`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cafeteria`
+--
+
+LOCK TABLES `cafeteria` WRITE;
+/*!40000 ALTER TABLE `cafeteria` DISABLE KEYS */;
+INSERT INTO `cafeteria` VALUES (2,'Principal',20,'12:00:00','18:00:00','Cine2'),(3,'Mexicano',10,'18:00:00','23:00:00','Cine2');
+/*!40000 ALTER TABLE `cafeteria` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -108,10 +138,20 @@ CREATE TABLE `cafeteria_oferta_comida` (
   `cantidad` int(11) DEFAULT NULL,
   PRIMARY KEY (`idcomida`,`idcafeteria`),
   KEY `fk_oferta_cafeteria_idx` (`idcafeteria`),
-  CONSTRAINT `fk_oferta_cafeteria` FOREIGN KEY (`idcafeteria`) REFERENCES `cafeteria` (`id_lugar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_oferta_cafeteria` FOREIGN KEY (`idcafeteria`) REFERENCES `cafeteria` (`id_lugar`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_oferta_comida` FOREIGN KEY (`idcomida`) REFERENCES `comida` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cafeteria_oferta_comida`
+--
+
+LOCK TABLES `cafeteria_oferta_comida` WRITE;
+/*!40000 ALTER TABLE `cafeteria_oferta_comida` DISABLE KEYS */;
+INSERT INTO `cafeteria_oferta_comida` VALUES (1,2,8),(1,3,8),(2,2,4),(3,2,2);
+/*!40000 ALTER TABLE `cafeteria_oferta_comida` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `cine`
@@ -130,6 +170,16 @@ CREATE TABLE `cine` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `cine`
+--
+
+LOCK TABLES `cine` WRITE;
+/*!40000 ALTER TABLE `cine` DISABLE KEYS */;
+INSERT INTO `cine` VALUES ('Cine1','calle 1','12:00:00','23:59:59'),('Cine2','calle 2','12:00:00','23:59:59'),('Yelmo','santa cruz','13:00:00','23:00:00');
+/*!40000 ALTER TABLE `cine` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comida`
 --
 
@@ -146,6 +196,16 @@ CREATE TABLE `comida` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comida`
+--
+
+LOCK TABLES `comida` WRITE;
+/*!40000 ALTER TABLE `comida` DISABLE KEYS */;
+INSERT INTO `comida` VALUES (1,'cotufas','cotufas con sal','millo, sal',3),(2,'papas local','papas con queso y jamón','papas, queso, jamón',5),(3,'refresco','refresco','agua, sal',2);
+/*!40000 ALTER TABLE `comida` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `compra_persona_butaca`
@@ -168,6 +228,16 @@ CREATE TABLE `compra_persona_butaca` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `compra_persona_butaca`
+--
+
+LOCK TABLES `compra_persona_butaca` WRITE;
+/*!40000 ALTER TABLE `compra_persona_butaca` DISABLE KEYS */;
+INSERT INTO `compra_persona_butaca` VALUES ('11111111A',1,'2021-01-22 17:00:00',1,'Cine1'),('22222222A',2,'2021-01-22 17:00:00',1,'Cine1');
+/*!40000 ALTER TABLE `compra_persona_butaca` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `grupo`
 --
 
@@ -185,6 +255,16 @@ CREATE TABLE `grupo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `grupo`
+--
+
+LOCK TABLES `grupo` WRITE;
+/*!40000 ALTER TABLE `grupo` DISABLE KEYS */;
+INSERT INTO `grupo` VALUES ('1',1,'4','2021-02-07'),('colegas',3,'11111111A','2021-02-08'),('colegas2',1,'44444444A','2021-02-08');
+/*!40000 ALTER TABLE `grupo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `lugar`
 --
 
@@ -200,6 +280,16 @@ CREATE TABLE `lugar` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `lugar`
+--
+
+LOCK TABLES `lugar` WRITE;
+/*!40000 ALTER TABLE `lugar` DISABLE KEYS */;
+INSERT INTO `lugar` VALUES (1,'Cine1'),(2,'Cine2'),(3,'Cine2'),(4,'Yelmo');
+/*!40000 ALTER TABLE `lugar` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pedido_incluye_comida`
 --
 
@@ -210,7 +300,7 @@ CREATE TABLE `pedido_incluye_comida` (
   `idpedido` int(11) NOT NULL,
   `idcomida` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `cafeteria` int(11) DEFAULT NULL,
+  `cafeteria` int(11) NOT NULL,
   PRIMARY KEY (`idpedido`,`idcomida`),
   KEY `fk_comida_idx` (`idcomida`),
   KEY `fk_cafeteria_idx` (`cafeteria`),
@@ -219,6 +309,16 @@ CREATE TABLE `pedido_incluye_comida` (
   CONSTRAINT `fk_pedido` FOREIGN KEY (`idpedido`) REFERENCES `Pedido` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pedido_incluye_comida`
+--
+
+LOCK TABLES `pedido_incluye_comida` WRITE;
+/*!40000 ALTER TABLE `pedido_incluye_comida` DISABLE KEYS */;
+INSERT INTO `pedido_incluye_comida` VALUES (1,1,2,2),(1,2,1,2),(2,3,1,2);
+/*!40000 ALTER TABLE `pedido_incluye_comida` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -230,6 +330,8 @@ CREATE TABLE `pedido_incluye_comida` (
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`usuario`@`%`*/ /*!50003 TRIGGER `cinesDB`.`pedido_incluye_comida_BEFORE_INSERT` BEFORE INSERT ON `pedido_incluye_comida` FOR EACH ROW
 BEGIN
+	declare curr_price int;
+    declare prod_price int;
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
         RESIGNAL;
     DECLARE EXIT HANDLER FOR SQLWARNING
@@ -237,6 +339,14 @@ BEGIN
     DECLARE EXIT HANDLER FOR NOT FOUND
         RESIGNAL; 
 	call procedure_reducir_stock_cafeteria(new.idcomida, new.cantidad, new.cafeteria);
+    if not exists(select pedido.id from Pedido as pedido where pedido.id = new.idpedido) then
+		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'No existe el pedido, crea el pedido antes de añadir items';
+    else
+		set curr_price = (select pedido.precio from Pedido as pedido where pedido.id = new.idpedido);
+        set prod_price = (select comida.precio from comida where comida.id = new.idcomida);
+        update Pedido set Pedido.precio = (curr_price + prod_price) where Pedido.id = new.idpedido;
+        
+    end if;
 end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -259,8 +369,18 @@ CREATE TABLE `pelicula` (
   `año` date DEFAULT NULL,
   `duracion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pelicula`
+--
+
+LOCK TABLES `pelicula` WRITE;
+/*!40000 ALTER TABLE `pelicula` DISABLE KEYS */;
+INSERT INTO `pelicula` VALUES (1,'vengadores','acción','almenabar','2015-12-23','2:30');
+/*!40000 ALTER TABLE `pelicula` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `persona`
@@ -284,6 +404,16 @@ CREATE TABLE `persona` (
   CONSTRAINT `fk_persona_a_grupo` FOREIGN KEY (`grupo_id`) REFERENCES `grupo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `persona`
+--
+
+LOCK TABLES `persona` WRITE;
+/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+INSERT INTO `persona` VALUES ('11111111A','Juan','Siverio',0,'922123456','hola@hola.com','4982737979319','colegas'),('22222222A','David','apellido',0,'922456789','adios@adios.com','4238472923','colegas'),('33333333A','Edu','apelldio',2,'23423425','hoal@hoal.com','32424323','colegas'),('4','4','4',4,'4','4','4','1'),('44444444A','Carlos','apellido',0,'987421765','hola@hola.com','3426876423847','colegas2');
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -383,6 +513,16 @@ CREATE TABLE `sala` (
   CONSTRAINT `fk_sala_lugar` FOREIGN KEY (`numero`) REFERENCES `lugar` (`id_lugar`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sala`
+--
+
+LOCK TABLES `sala` WRITE;
+/*!40000 ALTER TABLE `sala` DISABLE KEYS */;
+INSERT INTO `sala` VALUES (1,10,'4k','envolvente','Cine1'),(4,30,'4k','surround','Yelmo');
+/*!40000 ALTER TABLE `sala` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -436,14 +576,24 @@ CREATE TABLE `sala_exhibe_pelicula` (
   `sala` int(11) NOT NULL,
   `pelicula` int(11) NOT NULL,
   `cine` varchar(45) NOT NULL,
-  `fecha-hora` datetime DEFAULT NULL,
-  PRIMARY KEY (`sala`,`pelicula`,`cine`),
+  `fecha-hora` datetime NOT NULL,
+  PRIMARY KEY (`sala`,`pelicula`,`cine`,`fecha-hora`),
   KEY `fk_sala_idx` (`sala`,`cine`),
   KEY `fk_pelicula_idx` (`pelicula`),
   CONSTRAINT `fk_pelicula` FOREIGN KEY (`pelicula`) REFERENCES `pelicula` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_sala` FOREIGN KEY (`sala`, `cine`) REFERENCES `sala` (`numero`, `nombre_cine`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sala_exhibe_pelicula`
+--
+
+LOCK TABLES `sala_exhibe_pelicula` WRITE;
+/*!40000 ALTER TABLE `sala_exhibe_pelicula` DISABLE KEYS */;
+INSERT INTO `sala_exhibe_pelicula` VALUES (1,1,'Cine1','2021-01-22 17:00:00'),(4,1,'Yelmo','2021-01-22 17:00:00'),(4,1,'Yelmo','2021-01-22 19:00:00'),(4,1,'Yelmo','2021-01-22 21:00:00');
+/*!40000 ALTER TABLE `sala_exhibe_pelicula` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping events for database 'cinesDB'
@@ -700,4 +850,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-08 12:16:20
+-- Dump completed on 2021-02-08 20:48:22
