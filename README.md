@@ -7,10 +7,10 @@ Se realizará también la reserva de la comida y de la cafetería en la que se r
 
 ## Documentos:
 ### Modelo Conceptual (ER/E)
-#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/er.pdf)
+#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/diagramaER.pdf)
 ### Modelo Lógico Relacional
 #### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/modelo-logico.pdf)
 ### Generación de Código
-#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/creacion.pdf)
+#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/generacionCYP.pdf)
 ### Carga de Datos
-#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/carga.pdf)
+#### [Enlace](https://github.com/0x444d4d/adbd-proyecto/blob/main/cargadatos.pdf)
