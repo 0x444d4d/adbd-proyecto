@@ -7,4 +7,5 @@ El grupo formado por:
 - Juan Siverios Rojas
 - Carlos Socas García
 
-establecemos una equidad en horas de trabajo empleados en el proyecto que rondaran las 40-50 Horas.
+Establecemos una equidad en horas de trabajo empleados en el proyecto que rondaran las 40-50 Horas por persona.
+Hemos seguido una metodología ágil sin tareas específicas.
